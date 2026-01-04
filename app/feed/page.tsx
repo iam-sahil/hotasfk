@@ -26,16 +26,32 @@ export default function FeedPage() {
   const [offset, setOffset] = useState(0);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [volume, setVolume] = useState(0.5);
+  const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const fetchVideos = async (currentOffset: number) => {
     try {
       if (favorites.length === 0) return [];
+      const batchSize = 10;
+      const start = currentOffset % favorites.length;
+      let favoritesToFetch = favorites.slice(start, start + batchSize);
+
+      // If we need more to fill the batch (wrap around)
+      if (favoritesToFetch.length < batchSize && favorites.length > batchSize) {
+        favoritesToFetch = [
+          ...favoritesToFetch,
+          ...favorites.slice(0, batchSize - favoritesToFetch.length),
+        ];
+      }
+
+      // Determine API offset based on how many times we've cycled through favorites
+      const apiOffset = Math.floor(currentOffset / favorites.length) * 10;
 
       // Fetch posts for each favorite in parallel
-      // We limit to first page for each favorite to keep it snappy
-      const favoritePostsPromises = favorites.map((fav) =>
-        api.getCreatorPosts(fav.service, fav.id, source, currentOffset)
+      const favoritePostsPromises = favoritesToFetch.map((fav) =>
+        api.getCreatorPosts(fav.service, fav.id, source, apiOffset)
       );
 
       const results = await Promise.allSettled(favoritePostsPromises);
@@ -101,18 +117,63 @@ export default function FeedPage() {
     initFeed();
   }, [source, favorites]);
 
-  const handleScroll = async () => {
-    if (!containerRef.current || isFetchingMore) return;
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-    if (scrollTop + clientHeight >= scrollHeight - 100) {
-      setIsFetchingMore(true);
-      const nextOffset = offset + 50;
-      const newVideos = await fetchVideos(nextOffset);
-      setVideoPosts((prev) => [...prev, ...newVideos]);
-      setOffset(nextOffset);
-      setIsFetchingMore(false);
+    const options = {
+      root: container,
+      rootMargin: "0px",
+      threshold: 0.5,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = Array.from(container.children).indexOf(entry.target);
+          if (index !== -1) {
+            setActiveIndex(index);
+          }
+        }
+      });
+    }, options);
+
+    const children = Array.from(container.children);
+    children.forEach((child) => observer.observe(child));
+
+    return () => {
+      children.forEach((child) => observer.unobserve(child));
+    };
+  }, [videoPosts]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries[0].isIntersecting &&
+          !isFetchingMore &&
+          videoPosts.length > 0
+        ) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
     }
+
+    return () => observer.disconnect();
+  }, [isFetchingMore, videoPosts.length]);
+
+  const loadMore = async () => {
+    setIsFetchingMore(true);
+    const nextOffset = offset + 10;
+    const newVideos = await fetchVideos(nextOffset);
+    setVideoPosts((prev) => [...prev, ...newVideos]);
+    setOffset(nextOffset);
+    setIsFetchingMore(false);
   };
 
   const scrollToNext = (index: number) => {
@@ -166,7 +227,6 @@ export default function FeedPage() {
 
       <div
         ref={containerRef}
-        onScroll={handleScroll}
         className="h-full w-full overflow-y-scroll snap-y snap-mandatory scrollbar-hide"
       >
         {videoPosts.map((item, index) => (
@@ -176,6 +236,7 @@ export default function FeedPage() {
             videoUrl={item.url}
             onEnded={() => scrollToNext(index)}
             volume={volume}
+            shouldPreload={index >= activeIndex && index <= activeIndex + 2}
           />
         ))}
 
@@ -184,6 +245,8 @@ export default function FeedPage() {
             <Loader2 className="w-8 h-8 text-primary animate-spin" />
           </div>
         )}
+
+        <div ref={loadMoreRef} className="h-10 w-full" />
 
         {videoPosts.length === 0 && (
           <div className="h-full w-full flex flex-col items-center justify-center p-8 text-center">

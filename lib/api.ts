@@ -5,8 +5,19 @@ const BASE_URLS: Record<Source, string> = {
   kemono: "https://kemono.cr/api/v1",
 };
 
-const SESSION_COOKIE =
-  "session=eyJfcGVybWFuZW50Ijp0cnVlLCJhY2NvdW50X2lkIjoxOTA4ODI1fQ.aVfvkg.X5SMH4QZ6lN5MfcjtuPU-RPMXEc";
+const SESSION_COOKIES = [
+  "session=eyJfcGVybWFuZW50Ijp0cnVlLCJhY2NvdW50X2lkIjoxOTA4ODI1fQ.aVfvkg.X5SMH4QZ6lN5MfcjtuPU-RPMXEc",
+  "session=eyJfcGVybWFuZW50Ijp0cnVlLCJhY2NvdW50X2lkIjoxOTEwODgyfQ.aVqn_A.m01x6ji3CP9oAhkFppolNcM2MvY",
+  "session=eyJfcGVybWFuZW50Ijp0cnVlLCJhY2NvdW50X2lkIjoxOTEwODg0fQ.aVqoLA.N_la-lhzKgpa2gYstFc78LutY2A",
+];
+
+let currentCookieIndex = 0;
+
+function getNextSessionCookie() {
+  const cookie = SESSION_COOKIES[currentCookieIndex];
+  currentCookieIndex = (currentCookieIndex + 1) % SESSION_COOKIES.length;
+  return cookie;
+}
 
 export interface Creator {
   id: string;
@@ -70,7 +81,7 @@ async function fetchAPI<T>(
   const response = await fetch(url, {
     headers: {
       Accept: "text/css",
-      Cookie: SESSION_COOKIE,
+      Cookie: getNextSessionCookie(),
     },
     next: { revalidate: 3600 },
   });

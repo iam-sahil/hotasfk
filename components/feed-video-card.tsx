@@ -20,6 +20,7 @@ interface FeedVideoCardProps {
   videoUrl: string;
   onEnded?: () => void;
   volume?: number;
+  shouldPreload?: boolean;
 }
 
 export function FeedVideoCard({
@@ -27,6 +28,7 @@ export function FeedVideoCard({
   videoUrl,
   onEnded,
   volume = 0.5,
+  shouldPreload = false,
 }: FeedVideoCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -118,6 +120,7 @@ export function FeedVideoCard({
         playsInline
         onClick={togglePlay}
         onEnded={onEnded}
+        preload={shouldPreload ? "auto" : "metadata"}
       />
 
       {!isPlaying && (

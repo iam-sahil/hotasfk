@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SourceProvider } from "@/lib/source-context";
+import { FavoritesProvider } from "@/lib/favorites-context";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { GlobalContextMenu } from "@/components/global-context-menu";
@@ -43,12 +44,14 @@ export default function RootLayout({
         >
           <GlobalContextMenu>
             <SourceProvider>
-              <SidebarProvider>
-                <AppSidebar />
-                <SidebarInset>
-                  <main className="px-3 md:px-6">{children}</main>
-                </SidebarInset>
-              </SidebarProvider>
+              <FavoritesProvider>
+                <SidebarProvider>
+                  <AppSidebar />
+                  <SidebarInset>
+                    <main className="px-3 md:px-6">{children}</main>
+                  </SidebarInset>
+                </SidebarProvider>
+              </FavoritesProvider>
             </SourceProvider>
           </GlobalContextMenu>
         </ThemeProvider>
