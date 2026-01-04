@@ -73,7 +73,7 @@ export default function PostsSearchPage() {
             </h1>
           </div>
           <p className="text-muted-foreground">
-            Explore the latest posts from all creators.
+            Explore the latest posts from all models.
           </p>
         </div>
 

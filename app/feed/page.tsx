@@ -194,7 +194,7 @@ export default function FeedPage() {
                   No Favorites Yet
                 </h2>
                 <p className="text-white/50 text-sm">
-                  Add some creators to your favorites to see their videos here!
+                  Add some models to your favorites to see their videos here!
                 </p>
               </>
             ) : (
@@ -204,7 +204,7 @@ export default function FeedPage() {
                   No videos found
                 </h2>
                 <p className="text-white/50 text-sm">
-                  None of your favorite creators have posted videos recently on
+                  None of your favorite models have posted videos recently on
                   this source.
                 </p>
               </>

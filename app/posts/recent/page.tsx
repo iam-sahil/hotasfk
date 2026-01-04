@@ -44,8 +44,7 @@ export default function RecentPostsPage() {
           Recent Posts
         </h1>
         <p className="text-muted-foreground text-lg max-w-2xl">
-          Stay up to date with the latest content from all your favorite
-          creators.
+          Stay up to date with the latest content from all your favorite models.
         </p>
       </div>
 

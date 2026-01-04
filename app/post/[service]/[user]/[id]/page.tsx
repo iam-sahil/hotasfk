@@ -92,7 +92,7 @@ export default function PostPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/creators/search">Models</BreadcrumbLink>
+                <BreadcrumbLink href="/models/search">Models</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>

@@ -24,7 +24,7 @@ export default function RecentCreatorsPage() {
           .slice(0, 48);
         setArtists(sorted);
       } catch (error) {
-        console.error("Failed to fetch recent creators:", error);
+        console.error("Failed to fetch recent models:", error);
       } finally {
         setLoading(false);
       }
@@ -45,10 +45,10 @@ export default function RecentCreatorsPage() {
           </span>
         </div>
         <h1 className="text-4xl md:text-5xl font-black tracking-tighter">
-          Recent Creators
+          Recent models
         </h1>
         <p className="text-muted-foreground text-lg max-w-2xl">
-          The latest creators to have their content archived.
+          The latest models to have their content archived.
         </p>
       </div>
 

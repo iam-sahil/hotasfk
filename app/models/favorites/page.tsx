@@ -18,7 +18,7 @@ export default function FavoritesPage() {
           <h1 className="text-3xl font-bold">Your Favorites</h1>
         </div>
         <p className="text-muted-foreground">
-          Manage your favorite creators locally.
+          Manage your favorite models locally.
         </p>
       </div>
 
@@ -27,7 +27,7 @@ export default function FavoritesPage() {
           <Heart className="w-16 h-16 text-muted-foreground mb-4" />
           <h2 className="text-xl font-bold">No favorites yet</h2>
           <p className="text-muted-foreground">
-            Mark creators as favorites to see them here.
+            Mark models as favorites to see them here.
           </p>
         </div>
       ) : (

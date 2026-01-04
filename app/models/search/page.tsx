@@ -106,12 +106,12 @@ export default function CreatorsSearchPage() {
         <SidebarTrigger />
       </div>
       <div className="flex flex-col gap-4">
-        <h1 className="text-3xl font-bold">Search Creators</h1>
+        <h1 className="text-3xl font-bold">Search Models</h1>
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search creators..."
+              placeholder="Search models..."
               className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -163,7 +163,7 @@ export default function CreatorsSearchPage() {
 
           {filteredCreators.length === 0 && (
             <div className="text-center py-20 text-muted-foreground">
-              No creators found matching your criteria.
+              No models found matching your criteria.
             </div>
           )}
 

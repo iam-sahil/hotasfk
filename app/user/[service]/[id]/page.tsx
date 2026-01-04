@@ -156,7 +156,7 @@ export default function CreatorProfilePage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/creators/search">Models</BreadcrumbLink>
+                <BreadcrumbLink href="/models/search">Models</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -234,14 +234,14 @@ export default function CreatorProfilePage() {
                     variant="outline"
                     size="icon"
                     className="rounded-full"
-                    title="Similar Creators"
+                    title="Similar Models"
                   >
                     <Users className="w-4 h-4" />
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-4xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>Similar Creators</DialogTitle>
+                    <DialogTitle>Similar Models</DialogTitle>
                   </DialogHeader>
                   {loadingRecommended ? (
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-4">

@@ -76,7 +76,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     if (service && username) {
       router.push(`/user/${service}/${username}`);
     } else {
-      router.push(`/creators/search?q=${encodeURIComponent(searchQuery)}`);
+      router.push(`/models/search?q=${encodeURIComponent(searchQuery)}`);
     }
     setSearchQuery("");
   };
@@ -94,7 +94,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <form onSubmit={handleSearch} className="relative">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <SidebarInput
-            placeholder="Search or paste link..."
+            placeholder="Paste onlyfans or fansly link..."
             className="pl-8 bg-muted/50 border-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -139,19 +139,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center gap-2 px-2 py-1 text-foreground font-semibold">
-            Creators
+            Models
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <Link
-                  href="/creators/search"
-                  className="flex items-center gap-2"
-                >
+                <Link href="/models/search" className="flex items-center gap-2">
                   <SidebarMenuButton
                     className={cn(
                       "transition-all duration-200",
-                      isActive("/creators/search") &&
+                      isActive("/models/search") &&
                         "bg-primary text-primary-foreground hover:bg-primary/90"
                     )}
                   >
@@ -161,14 +158,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link
-                  href="/creators/random"
-                  className="flex items-center gap-2"
-                >
+                <Link href="/models/random" className="flex items-center gap-2">
                   <SidebarMenuButton
                     className={cn(
                       "transition-all duration-200",
-                      isActive("/creators/random") &&
+                      isActive("/models/random") &&
                         "bg-primary text-primary-foreground hover:bg-primary/90"
                     )}
                   >
@@ -179,13 +173,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link
-                  href="/creators/favorites"
+                  href="/models/favorites"
                   className="flex items-center gap-2"
                 >
                   <SidebarMenuButton
                     className={cn(
                       "transition-all duration-200",
-                      isActive("/creators/favorites") &&
+                      isActive("/models/favorites") &&
                         "bg-primary text-primary-foreground hover:bg-primary/90"
                     )}
                   >
