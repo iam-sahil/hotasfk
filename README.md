@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Coomer.st API Summary – Endpoints Related to Creators, Posts, Attachments, and Random Selection
 
-## Getting Started
+The Coomer.st API provides public read-only access to archived content from platforms like OnlyFans, Fansly, and Candfans. All endpoints are **GET** requests and return JSON data. Below is a structured overview of the documented endpoints focused on creators, profiles, posts, attachments, and random selection.
 
-First, run the development server:
+#### 1. Creators List
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Endpoint**: `GET https://coomer.st/api/v1/creators`
+- **Description**: Returns the full list of archived creators across all supported services.
+- **Response Example** (array of objects):
+  ```json
+  [
+    {
+      "id": "anabel_joness",
+      "name": "anabel_joness",
+      "service": "onlyfans",
+      "indexed": 1758303035,
+      "updated": 1760922468,
+      "favorited": 1
+    },
+    {
+      "id": "1081761",
+      "name": "Kaito",
+      "service": "candfans",
+      "indexed": 1715066205,
+      "updated": 1715066331,
+      "favorited": 13
+    }
+  ]
+  ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### 2. Creator Profile
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Endpoint**: `GET https://coomer.st/api/v1/{service}/user/{username}/profile`
+  - `{service}`: e.g., `onlyfans`, `fansly`, `candfans`
+  - `{username}`: creator's username or numeric ID
+- **Description**: Retrieves basic profile information and statistics for a specific creator.
+- **Response Example**:
+  ```json
+  {
+    "id": "moodyfeet",
+    "name": "moodyfeet",
+    "service": "onlyfans",
+    "indexed": "2022-12-02T16:38:02.521035",
+    "updated": "2025-09-27T09:11:53.694994",
+    "public_id": "8680823",
+    "relation_id": null,
+    "post_count": 2325,
+    "dm_count": 0,
+    "share_count": 0,
+    "chat_count": 0
+  }
+  ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#### 3. Creator Posts List
 
-## Learn More
+- **Endpoint**: `GET https://coomer.st/api/v1/{service}/user/{username}/posts`
+- **Description**: Returns a paginated list of the creator's posts (usually recent or all available). Each post includes basic metadata, a primary file (if present), and a list of attachments.
+- **Key Fields in Each Post**:
+  - `id`, `title`, `substring` (truncated text), `published`
+  - `file`: primary media (image/video) object with `name` and `path`
+  - `attachments`: array of additional media files
+- **Response**: Array of post objects (see provided examples for moodyfeet).
 
-To learn more about Next.js, take a look at the following resources:
+#### 4. Single Post Details (Including Full Attachments)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Endpoint**: `GET https://coomer.st/api/v1/{service}/user/{username}/post/{post_id}`
+- **Description**: Returns complete details for a specific post, including full content, all attachments, thumbnails/previews, and sometimes video metadata.
+- **Response Structure**:
+  - `post`: full post object (title, content, published date, file, attachments, next/prev post IDs)
+  - `attachments`: processed attachment list
+  - `previews`: thumbnail objects with server URLs
+  - `videos`: array for video-specific info (if applicable)
+  - `props`: additional metadata (revisions, flagged status)
+- **Example Notes**:
+  - Photo-heavy posts: primary `file` + many `attachments`
+  - Video posts: media often in `attachments` or dedicated `videos` array
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### 5. Random Creator
 
-## Deploy on Vercel
+- **Endpoint**: `GET https://coomer.st/api/v1/artists/random`
+- **Description**: Returns a random archived creator.
+- **Response Example**:
+  ```json
+  {
+    "service": "onlyfans",
+    "artist_id": "rennatababy"
+  }
+  ```
+- **Usage**: Can be chained with the profile endpoint:
+  `GET https://coomer.st/api/v1/onlyfans/user/rennatababy/profile`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### 6. Global Recent Posts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Endpoint**: `GET https://coomer.st/api/v1/posts`
+- **Description**: Returns a list of recent posts across all creators and services.
+- **Response**:
+  - `count`, `true_count`: pagination/total stats
+  - `posts`: array of post summaries (similar structure to creator posts list)
+
+#### 7. Random Post
+
+- **Endpoint**: `GET https://coomer.st/api/v1/posts/random`
+- **Description**: Returns a single random post from the entire archive.
+- **Response Example**:
+  ```json
+  {
+    "service": "onlyfans",
+    "artist_id": "stormyyyangel",
+    "post_id": "1343225606"
+  }
+  ```
+
+### Media Access Notes
+
+- Files are hosted on coomer.st servers.
+- Paths are relative (e.g., `/c7/24/...mp4`).
+- Full URLs can be constructed as: `https://[n1-n4].coomer.st/[path]` (thumbnails use specific servers as shown in previews).
+- Videos and images are directly downloadable via their `path`.
