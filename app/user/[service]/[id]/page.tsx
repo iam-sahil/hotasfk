@@ -294,8 +294,6 @@ export default function CreatorProfilePage() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-            </div>
-            <div className="flex items-center gap-2">
               <Tabs
                 value={filterType}
                 onValueChange={(v) => setFilterType(v as "all" | "videos")}
@@ -318,12 +316,13 @@ export default function CreatorProfilePage() {
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
-
+            </div>
+            <div className="flex items-center gap-2">
               <div className="flex items-center gap-1">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-2"
+                  className="gap-2 text-muted-foreground"
                   onClick={() =>
                     setSortBy(sortBy === "newest" ? "oldest" : "newest")
                   }

@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SourceProvider } from "@/lib/source-context";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { GlobalContextMenu } from "@/components/global-context-menu";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -40,14 +41,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SourceProvider>
-            <SidebarProvider>
-              <AppSidebar />
-              <SidebarInset>
-                <main className="px-3 md:px-6">{children}</main>
-              </SidebarInset>
-            </SidebarProvider>
-          </SourceProvider>
+          <GlobalContextMenu>
+            <SourceProvider>
+              <SidebarProvider>
+                <AppSidebar />
+                <SidebarInset>
+                  <main className="px-3 md:px-6">{children}</main>
+                </SidebarInset>
+              </SidebarProvider>
+            </SourceProvider>
+          </GlobalContextMenu>
         </ThemeProvider>
       </body>
     </html>

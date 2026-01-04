@@ -4,7 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { Post, api } from "@/lib/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Download, ExternalLink, Music2, User, Play } from "lucide-react";
+import {
+  Download,
+  ExternalLink,
+  Music2,
+  User,
+  Play,
+  Maximize2,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -94,6 +101,14 @@ export function FeedVideoCard({
     }
   };
 
+  const toggleFullScreen = () => {
+    if (videoRef.current) {
+      if (videoRef.current.requestFullscreen) {
+        videoRef.current.requestFullscreen();
+      }
+    }
+  };
+
   return (
     <div className="relative h-full w-full bg-black flex items-center justify-center snap-start overflow-hidden">
       <video
@@ -178,6 +193,19 @@ export function FeedVideoCard({
               </Link>
               <span className="text-white text-[10px] font-bold">
                 View post
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white"
+                onClick={toggleFullScreen}
+              >
+                <Maximize2 className="w-6 h-6" />
+              </Button>
+              <span className="text-white text-[10px] font-bold">
+                Full screen
               </span>
             </div>
           </div>

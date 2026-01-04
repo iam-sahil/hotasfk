@@ -149,7 +149,7 @@ export default function PostPage() {
               <div className="space-y-4">
                 <h3 className="text-xl font-bold flex items-center gap-2">
                   <FileText className="w-5 h-5 text-primary" />
-                  Content
+                  Description
                 </h3>
                 <div
                   className="prose prose-invert max-w-none bg-muted/20 p-8 rounded-3xl border border-border/50 shadow-sm"
