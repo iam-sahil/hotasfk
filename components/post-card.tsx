@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { SafeImage } from "@/components/ui/safe-image";
+import { Video } from "lucide-react";
 
 interface PostCardProps {
   post: Post;
@@ -14,9 +15,39 @@ export function PostCard({ post }: PostCardProps) {
   const date = new Date(post.published || post.added);
   const source = api.getSourceFromService(post.service);
 
-  const mediaUrl = post.file?.path
-    ? api.getMediaUrl(post.file.path, source)
-    : null;
+  const isVideo = (path?: string) => path?.match(/\.(mp4|webm|mov)$/i);
+  const isImage = (path?: string) => path?.match(/\.(jpg|jpeg|png|gif|webp)$/i);
+
+  const mainFile = post.file?.path;
+  const attachments = post.attachments || [];
+
+  let thumbnailType: "image" | "video" | null = null;
+  let thumbnailUrl: string | null = null;
+
+  if (mainFile) {
+    if (isImage(mainFile)) {
+      thumbnailType = "image";
+      thumbnailUrl = api.getMediaUrl(mainFile, source);
+    } else if (isVideo(mainFile)) {
+      thumbnailType = "video";
+      thumbnailUrl = api.getMediaUrl(mainFile, source);
+    }
+  }
+
+  if (!thumbnailUrl) {
+    const firstImage = attachments.find((att) => isImage(att.path));
+    if (firstImage) {
+      thumbnailType = "image";
+      thumbnailUrl = api.getMediaUrl(firstImage.path, source);
+    } else {
+      const firstVideo = attachments.find((att) => isVideo(att.path));
+      if (firstVideo) {
+        thumbnailType = "video";
+        thumbnailUrl = api.getMediaUrl(firstVideo.path, source);
+      }
+    }
+  }
+
   const iconUrl = api.getIconUrl(post.service, post.user, source);
 
   return (
@@ -45,14 +76,29 @@ export function PostCard({ post }: PostCardProps) {
           </div>
         </CardHeader>
         <CardContent className="p-0 flex-1 flex flex-col">
-          {mediaUrl && (
+          {thumbnailUrl && (
             <div className="relative aspect-square bg-black/20 flex items-center justify-center overflow-hidden">
-              <SafeImage
-                src={mediaUrl}
-                alt={post.title}
-                className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
-                loading="lazy"
-              />
+              {thumbnailType === "image" ? (
+                <SafeImage
+                  src={thumbnailUrl}
+                  alt={post.title}
+                  className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              ) : (
+                <video
+                  src={thumbnailUrl}
+                  className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                  muted
+                  playsInline
+                  preload="metadata"
+                />
+              )}
+              {thumbnailType === "video" && (
+                <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md p-1 rounded-xl z-10">
+                  <Video className="w-3 h-3 text-white" />
+                </div>
+              )}
             </div>
           )}
           <div className="p-4 flex-1">

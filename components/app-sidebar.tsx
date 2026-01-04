@@ -16,6 +16,7 @@ import {
   Flame,
   File,
   Shield,
+  Clapperboard,
 } from "lucide-react";
 
 import {
@@ -115,6 +116,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   >
                     <Home className="w-4 h-4" />
                     <span>Home</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/feed" className="flex items-center gap-2">
+                  <SidebarMenuButton
+                    className={cn(
+                      "transition-all duration-200",
+                      isActive("/feed") &&
+                        "bg-primary text-primary-foreground hover:bg-primary/90"
+                    )}
+                  >
+                    <Clapperboard className="w-4 h-4" />
+                    <span>Feed</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>

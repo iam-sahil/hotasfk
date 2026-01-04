@@ -33,6 +33,8 @@ import {
   Users,
   ArrowUpDown,
   Search,
+  Video,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   Dialog,
@@ -48,6 +50,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function CreatorProfilePage() {
   const params = useParams();
@@ -62,6 +65,7 @@ export default function CreatorProfilePage() {
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest");
+  const [filterType, setFilterType] = useState<"all" | "videos">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -134,6 +138,14 @@ export default function CreatorProfilePage() {
   const iconUrl = api.getIconUrl(service, id, source);
   const bannerUrl = api.getBannerUrl(service, id, source);
   const isFav = creator ? isFavorite(creator) : false;
+
+  const filteredPosts = posts.filter((post) => {
+    if (filterType === "all") return true;
+    const hasVideo =
+      post.file?.path?.match(/\.(mp4|webm|mov)$/i) ||
+      post.attachments?.some((att) => att.path?.match(/\.(mp4|webm|mov)$/i));
+    return hasVideo;
+  });
 
   return (
     <>
@@ -284,6 +296,29 @@ export default function CreatorProfilePage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              <Tabs
+                value={filterType}
+                onValueChange={(v) => setFilterType(v as "all" | "videos")}
+                className="mr-2"
+              >
+                <TabsList className="h-9 bg-muted/50 border-none">
+                  <TabsTrigger
+                    value="all"
+                    className="gap-2 rounded-full text-xs font-bold"
+                  >
+                    <ImageIcon className="w-3.5 h-3.5" />
+                    All
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="videos"
+                    className="gap-2 rounded-full text-xs font-bold"
+                  >
+                    <Video className="w-3.5 h-3.5" />
+                    Videos
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+
               <div className="flex items-center gap-1">
                 <Button
                   variant="outline"
@@ -335,16 +370,17 @@ export default function CreatorProfilePage() {
                 <Skeleton key={i} className="aspect-3/4 rounded-2xl" />
               ))}
             </div>
-          ) : posts.length > 0 ? (
+          ) : filteredPosts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {posts.map((post) => (
+              {filteredPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
             </div>
           ) : (
             <div className="text-center py-20 bg-muted/20 rounded-3xl border-2 border-dashed">
               <p className="text-muted-foreground font-medium">
-                No posts found for this creator.
+                No {filterType === "videos" ? "videos" : "posts"} found for this
+                creator.
               </p>
             </div>
           )}

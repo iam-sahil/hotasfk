@@ -235,8 +235,8 @@ export default function PostPage() {
         </div>
 
         {/* Sticky Navigation */}
-        <div className="fixed bottom-6 left-0 md:left-(--sidebar-width) right-0 pointer-events-none z-50 px-6 transition-[left] duration-300 ease-linear">
-          <div className="flex justify-between items-center w-full">
+        <div className="fixed bottom-6 left-0 right-0 pointer-events-none z-50 px-6 transition-[left] duration-300 ease-linear">
+          <div className="flex justify-end items-center gap-2 w-full">
             {post.prev ? (
               <Link
                 href={`/post/${post.service}/${post.user}/${post.prev}`}
@@ -247,7 +247,7 @@ export default function PostPage() {
                   size="icon"
                   className="w-12 h-12 rounded-full shadow-2xl border border-border/50 bg-background/80 backdrop-blur-xl hover:bg-primary hover:text-primary-foreground transition-all group"
                 >
-                  <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
+                  <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
                 </Button>
               </Link>
             ) : (
@@ -264,7 +264,7 @@ export default function PostPage() {
                   size="icon"
                   className="w-12 h-12 rounded-full shadow-2xl border border-border/50 bg-background/80 backdrop-blur-xl hover:bg-primary hover:text-primary-foreground transition-all group"
                 >
-                  <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
                 </Button>
               </Link>
             ) : (
