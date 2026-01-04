@@ -53,13 +53,16 @@ The Coomer.st API provides public read-only access to archived content from plat
 
 #### 3. Creator Posts List
 
-- **Endpoint**: `GET https://coomer.st/api/v1/{service}/user/{username}/posts`
-- **Description**: Returns a paginated list of the creator's posts (usually recent or all available). Each post includes basic metadata, a primary file (if present), and a list of attachments.
+- **Endpoint**: `GET https://coomer.st/api/v1/{service}/user/{username}/posts?o={offset}&q={query}`
+- **Description**: Returns a paginated list of the creator's posts.
+- **Parameters**:
+  - `o`: Offset for pagination (increments of 50).
+  - `q`: Search query to filter posts by title or content.
 - **Key Fields in Each Post**:
   - `id`, `title`, `substring` (truncated text), `published`
   - `file`: primary media (image/video) object with `name` and `path`
   - `attachments`: array of additional media files
-- **Response**: Array of post objects (see provided examples for moodyfeet).
+- **Response**: Array of post objects.
 
 #### 4. Single Post Details (Including Full Attachments)
 
@@ -91,13 +94,30 @@ The Coomer.st API provides public read-only access to archived content from plat
 
 #### 6. Global Recent Posts
 
-- **Endpoint**: `GET https://coomer.st/api/v1/posts`
+- **Endpoint**: `GET https://coomer.st/api/v1/posts?o={offset}&q={query}`
 - **Description**: Returns a list of recent posts across all creators and services.
+- **Parameters**:
+  - `o`: Offset for pagination (increments of 50).
+  - `q`: Search query to filter posts globally.
 - **Response**:
   - `count`, `true_count`: pagination/total stats
   - `posts`: array of post summaries (similar structure to creator posts list)
 
-#### 7. Random Post
+#### 7. Popular Posts
+
+- **Endpoint**: `GET https://coomer.st/api/v1/posts/popular?period={period}`
+- **Description**: Returns the most popular posts within a specific timeframe.
+- **Parameters**:
+  - `period`: Timeframe for popularity (e.g., `day`, `week`, `month`, `recent`).
+- **Response**: Object containing an array of `posts`.
+
+#### 8. Recommended Creators
+
+- **Endpoint**: `GET https://coomer.st/api/v1/{service}/user/{username}/recommended`
+- **Description**: Returns a list of creators similar to the specified creator.
+- **Response**: Array of creator objects.
+
+#### 9. Random Post
 
 - **Endpoint**: `GET https://coomer.st/api/v1/posts/random`
 - **Description**: Returns a single random post from the entire archive.
@@ -112,7 +132,7 @@ The Coomer.st API provides public read-only access to archived content from plat
 
 ### Media Access Notes
 
-- Files are hosted on coomer.st servers.
+- Files are hosted on coomer.st and kemono.cr servers.
 - Paths are relative (e.g., `/c7/24/...mp4`).
-- Full URLs can be constructed as: `https://[n1-n4].coomer.st/[path]` (thumbnails use specific servers as shown in previews).
+- Full URLs can be constructed as: `https://[n1-n4].coomer.st/[path]` or `https://n1.kemono.cr/[path]`.
 - Videos and images are directly downloadable via their `path`.
