@@ -267,10 +267,24 @@ export default function CreatorProfilePage() {
               >
                 <Share2 className="w-4 h-4" />
               </Button>
-
+              <Button
+                variant="outline"
+                className="rounded-full"
+                onClick={() => {
+                  const name = creator?.name || id;
+                  const sxyprnUrl = `https://sxyprn.com/${name
+                    .trim()
+                    .replace(/\s+/g, "-")}.html`;
+                  window.open(sxyprnUrl, "_blank");
+                }}
+                title="View on sxyprn"
+              >
+                <ExternalLink className="w-4 h-4" />
+                <span>View on sxyprn</span>
+              </Button>
               <Button
                 className={`rounded-full gap-2 font-bold ${
-                  isFav ? "bg-red-500 hover:bg-red-600 text-white" : ""
+                  isFav ? "bg-rose-500 hover:bg-rose-600 text-white" : ""
                 }`}
                 onClick={() => creator && toggleFavorite(creator)}
               >
