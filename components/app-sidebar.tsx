@@ -133,6 +133,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link
+                  target="_blank"
+                  href="https://danhub.vercel.app/"
+                  className="flex items-center gap-2"
+                >
+                  <SidebarMenuButton className="transition-all duration-200">
+                    <Flame className="w-4 h-4" />
+                    <span>Our Hentai Site</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -262,18 +274,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuButton className="transition-all duration-200">
                     <Shield className="w-4 h-4" />
                     <span>Privacy Policy</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link
-                  target="_blank"
-                  href="https://coomer.st/documentation/api"
-                  className="flex items-center gap-2"
-                >
-                  <SidebarMenuButton className="transition-all duration-200">
-                    <File className="w-4 h-4" />
-                    <span>API Documentation</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
