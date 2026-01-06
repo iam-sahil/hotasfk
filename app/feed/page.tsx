@@ -188,7 +188,7 @@ export default function FeedPage() {
 
   if (loading) {
     return (
-      <div className="h-[calc(100vh-2rem)] w-full flex items-center justify-center bg-black rounded-3xl overflow-hidden">
+      <div className="h-[calc(100dvh-1rem)] md:h-[calc(100vh-2rem)] w-full flex items-center justify-center bg-black rounded-2xl md:rounded-3xl overflow-hidden mt-1 md:mt-2">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 text-primary animate-spin" />
           <p className="text-white/50 font-bold animate-pulse">
@@ -200,7 +200,7 @@ export default function FeedPage() {
   }
 
   return (
-    <div className="relative h-[calc(100vh-2rem)] max-w-xl mx-auto rounded-2xl mt-2 w-full bg-black overflow-hidden shadow-2xl border border-white/10">
+    <div className="relative h-[calc(100dvh-1rem)] md:h-[calc(100vh-2rem)] max-w-xl mx-auto rounded-xl md:rounded-2xl mt-1 md:mt-2 w-full bg-black overflow-hidden shadow-2xl border border-white/10">
       <div className="absolute top-4 left-4 z-50 md:hidden">
         <SidebarTrigger className="text-white bg-black/20 backdrop-blur-md rounded-full" />
       </div>

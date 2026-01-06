@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { api, Creator } from "@/lib/api";
 import { ArtistCard } from "@/components/artist-card";
 import { useSource } from "@/lib/source-context";
@@ -27,13 +28,36 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 const ITEMS_PER_PAGE = 24;
 
 export default function CreatorsSearchPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center py-20">
+          <Loader2 className="w-8 h-8 animate-spin" />
+        </div>
+      }
+    >
+      <SearchContent />
+    </Suspense>
+  );
+}
+
+function SearchContent() {
   const { source } = useSource();
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get("q") || "";
+
   const [allCreators, setAllCreators] = useState<Creator[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [serviceFilter, setServiceFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("popularity");
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Update searchQuery when URL param changes
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q) setSearchQuery(q);
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchCreators = async () => {
@@ -107,7 +131,7 @@ export default function CreatorsSearchPage() {
       </div>
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold">Search Models</h1>
-        <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-2">
+        <div className="flex flex-row md:items-center gap-4 md:gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input

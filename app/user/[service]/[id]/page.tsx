@@ -179,7 +179,7 @@ export default function CreatorProfilePage() {
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
           </div>
 
-          <div className="px-6 -mt-12 md:-mt-16 flex flex-col md:flex-row items-end gap-6">
+          <div className="px-6 -mt-12 md:-mt-16 flex flex-col md:flex-row sm:items-end gap-6">
             <Avatar className="w-32 h-32 md:w-40 md:h-40 border-4 border-background shadow-2xl">
               <AvatarImage src={iconUrl} />
               <AvatarFallback className="text-4xl font-bold">

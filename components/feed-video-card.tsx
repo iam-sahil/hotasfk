@@ -140,46 +140,48 @@ export function FeedVideoCard({
       </div>
 
       {/* Overlay UI */}
-      <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-4 bg-linear-to-t from-black/60 via-transparent to-transparent">
-        <div className="flex justify-between items-end w-full pointer-events-auto">
-          <div className="flex-1 pr-12">
+      <div className="absolute inset-0 pointer-events-none flex flex-col justify-end p-3 md:p-4 bg-linear-to-t from-black/80 via-black/20 to-transparent">
+        <div className="flex justify-between items-end w-full pointer-events-auto gap-2">
+          <div className="flex-1 min-w-0 pb-2">
             <Link
               href={`/user/${post.service}/${post.user}`}
-              className="flex items-center gap-3 mb-3 group"
+              className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3 group"
             >
-              <Avatar className="w-10 h-10 border-2 border-white shadow-lg group-hover:scale-110 transition-transform">
+              <Avatar className="w-8 h-8 md:w-10 md:h-10 border-2 border-white shadow-lg group-hover:scale-110 transition-transform">
                 <AvatarImage src={iconUrl} />
                 <AvatarFallback>
-                  <User className="w-6 h-6" />
+                  <User className="w-4 h-4 md:w-6 md:h-6" />
                 </AvatarFallback>
               </Avatar>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-white text-lg drop-shadow-md">
+              <div className="flex flex-col min-w-0">
+                <div className="flex items-center gap-1.5 md:gap-2">
+                  <span className="font-bold text-white text-base md:text-lg drop-shadow-md truncate">
                     @{post.user}
                   </span>
-                  <Badge className="bg-primary text-primary-foreground border-none text-[10px] font-bold uppercase">
+                  <Badge className="bg-primary text-primary-foreground border-none text-[8px] md:text-[10px] font-bold uppercase px-1.5 py-0">
                     {post.service}
                   </Badge>
                 </div>
               </div>
             </Link>
-            <h3 className="text-white font-medium text-sm mb-2 line-clamp-2 drop-shadow-md">
+            <h3 className="text-white font-medium text-xs md:text-sm mb-1 md:mb-2 line-clamp-2 drop-shadow-md">
               {post.title || "Untitled Post"}
             </h3>
           </div>
 
-          <div className="flex flex-col gap-6 items-center pb-4">
+          <div className="flex flex-col gap-3 md:gap-6 items-center pb-2 md:pb-4">
             <div className="flex flex-col items-center gap-1">
               <Button
                 variant="ghost"
                 size="icon"
-                className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white"
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white"
                 onClick={() => window.open(videoUrl, "_blank")}
               >
-                <Download className="w-6 h-6" />
+                <Download className="w-5 h-5 md:w-6 md:h-6" />
               </Button>
-              <span className="text-white text-[10px] font-bold">Download</span>
+              <span className="text-white text-[9px] md:text-[10px] font-bold">
+                Download
+              </span>
             </div>
             <div className="flex flex-col items-center gap-1">
               <Link
@@ -189,12 +191,12 @@ export function FeedVideoCard({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white"
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white"
                 >
-                  <ExternalLink className="w-6 h-6" />
+                  <ExternalLink className="w-5 h-5 md:w-6 md:h-6" />
                 </Button>
               </Link>
-              <span className="text-white text-[10px] font-bold">
+              <span className="text-white text-[9px] md:text-[10px] font-bold">
                 View post
               </span>
             </div>
@@ -202,12 +204,12 @@ export function FeedVideoCard({
               <Button
                 variant="ghost"
                 size="icon"
-                className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white"
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 text-white"
                 onClick={toggleFullScreen}
               >
-                <Maximize2 className="w-6 h-6" />
+                <Maximize2 className="w-5 h-5 md:w-6 md:h-6" />
               </Button>
-              <span className="text-white text-[10px] font-bold">
+              <span className="text-white text-[9px] md:text-[10px] font-bold">
                 Full screen
               </span>
             </div>
